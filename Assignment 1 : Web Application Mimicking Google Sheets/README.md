@@ -54,7 +54,7 @@ A lightweight, React-based spreadsheet application that mimics the core function
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/google-sheets-clone.git
+git clone https://github.com/epiccodewiz/Zeotap--Software-Engineer-Intern-Assignment.git
 cd google-sheets-clone
 ```
 
