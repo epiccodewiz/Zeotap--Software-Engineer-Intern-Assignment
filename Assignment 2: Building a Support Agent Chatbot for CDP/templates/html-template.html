@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP Support Agent</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .chat-container {
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-center text-blue-600">CDP Support Agent</h1>
+            <p class="text-center text-gray-600">Ask how-to questions about Segment, mParticle, Lytics, and Zeotap</p>
+        </header>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div id="chat-container" class="chat-container mb-4 p-4 border border-gray-300 rounded-lg">
+                <div class="flex mb-4">
+                    <div class="flex-shrink-0 bg-blue-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <p>Hi there! I'm your CDP Support Agent. How can I help you with Segment, mParticle, Lytics, or Zeotap today?</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center">
+                <input id="user-input" type="text" placeholder="Ask a question..." class="flex-grow p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button id="send-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold p-3 rounded-r-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="mt-4">
+                <h3 class="font-bold text-gray-700">Sample Questions:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                    <button class="sample-question text-left p-2 bg-gray-200 hover:bg-gray-300 rounded">How do I set up a new source in Segment?</button>
+                    <button class="sample-question text-left p-2 bg-gray-200 hover:bg-gray-300 rounded">How can I create a user profile in mParticle?</button>
+                    <button class="sample-question text-left p-2 bg-gray-200 hover:bg-gray-300 rounded">How do I build an audience segment in Lytics?</button>
+                    <button class="sample-question text-left p-2 bg-gray-200 hover:bg-gray-300 rounded">How can I integrate my data with Zeotap?</button>
+                    <button class="sample-question text-left p-2 bg-gray-200 hover:bg-gray-300 rounded">How does Segment's audience creation compare to Lytics?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chat-container');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const sampleQuestions = document.querySelectorAll('.sample-question');
+            
+            function addMessage(content, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex mb-4';
+                
+                if (isUser) {
+                    messageDiv.innerHTML = `
+                        <div class="flex-grow"></div>
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <p>${content}</p>
+                        </div>
+                        <div class="flex-shrink-0 bg-green-500 text-white rounded-full h-8 w-8 flex items-center justify-center ml-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="flex-shrink-0 bg-blue-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-lg">
+                            <p>${content}</p>
+                        </div>
+                    `;
+                }
+                
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+                
+                // Add user message to chat
+                addMessage(message, true);
+                
+                // Clear input
+                userInput.value = '';
+                
+                // Add loading indicator
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'flex mb-4 loading-message';
+                loadingDiv.innerHTML = `
+                    <div class="flex-shrink-0 bg-blue-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <p>Thinking...</p>
+                    </div>
+                `;
+                chatContainer.appendChild(loadingDiv);
+                
+                // Send request to backend
+                fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question: message }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Remove loading indicator
+                    const loadingMessage = document.querySelector('.loading-message');
+                    if (loadingMessage) {
+                        chatContainer.removeChild(loadingMessage);
+                    }
+                    
+                    // Add response to chat
+                    addMessage(data.response.replace(/\n/g, '<br>'), false);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const loadingMessage = document.querySelector('.loading-message');
+                    if (loadingMessage) {
+                        chatContainer.removeChild(loadingMessage);
+                    }
+                    addMessage('Sorry, there was an error processing your request.', false);
+                });
+            }
+            
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            sampleQuestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    userInput.value = this.textContent;
+                    sendMessage();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
