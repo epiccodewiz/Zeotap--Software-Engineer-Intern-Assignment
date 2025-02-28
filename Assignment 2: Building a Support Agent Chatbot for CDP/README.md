@@ -143,9 +143,3 @@ The system:
 2. **Comparison Questions**:
    - "How does Segment's audience creation compare to Lytics?"
    - "Which CDP has better privacy compliance: Segment or mParticle?"
-
-3. **Advanced Questions**:
-   - Implementation: "How do I implement multi-environment configurations in mParticle?"
-   - Troubleshooting: "Why isn't my Segment tracking working on Safari browsers?"
-   - Best Practices: "What are security best practices for Lytics implementation?"
-   - Migration: "How do I migrate from Adobe Analytics to Segment?"
